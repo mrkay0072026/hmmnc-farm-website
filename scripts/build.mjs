@@ -1,0 +1,11 @@
+import { cpSync, copyFileSync, mkdirSync, rmSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+const root=resolve(import.meta.dirname,'..');
+const dist=join(root,'dist');
+rmSync(dist,{recursive:true,force:true});
+mkdirSync(dist,{recursive:true});
+copyFileSync(join(root,'index.html'),join(dist,'index.html'));
+copyFileSync(join(root,'robots.txt'),join(dist,'robots.txt'));
+copyFileSync(join(root,'sitemap.xml'),join(dist,'sitemap.xml'));
+cpSync(join(root,'assets'),join(dist,'assets'),{recursive:true});
+console.log('Built to dist/ (static HTML/CSS/JS/images, no external dependencies)');
