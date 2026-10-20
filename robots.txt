@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://hmmnc.com/sitemap.xml
+Sitemap: https://hmmncfarm-3vhg2mi.maozi.io/sitemap.xml
