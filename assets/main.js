@@ -30,6 +30,7 @@ menuToggle.addEventListener('click',()=>{
   menuToggle.setAttribute('aria-label',opening?'关闭导航':'打开导航');
   mobileMenu.hidden=!opening;
   setHeaderState();
+  if(opening)requestAnimationFrame(()=>mobileMenu.querySelector('a')?.focus());
 });
 mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
 window.addEventListener('resize',()=>{if(window.innerWidth>960)closeMenu();},{passive:true});
@@ -109,6 +110,21 @@ document.querySelectorAll('.filter').forEach(button=>button.addEventListener('cl
   });
   document.querySelectorAll('.price-group').forEach(group=>group.classList.toggle('is-hidden',key!=='all'&&group.dataset.group!==key));
 }));
+
+const navLinks=[...document.querySelectorAll('.desktop-nav a,.mobile-menu a')];
+const trackedSections=[...new Set(navLinks.map(link=>document.querySelector(link.getAttribute('href'))).filter(Boolean))];
+if('IntersectionObserver' in window){
+  const navObserver=new IntersectionObserver(entries=>{
+    const visible=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+    if(!visible)return;
+    navLinks.forEach(link=>{
+      const active=link.getAttribute('href')==='#'+visible.target.id;
+      if(active)link.setAttribute('aria-current','location');
+      else link.removeAttribute('aria-current');
+    });
+  },{rootMargin:'-20% 0px -65% 0px',threshold:[0,.2,.5]});
+  trackedSections.forEach(section=>navObserver.observe(section));
+}
 
 if(prefersReducedMotion||!('IntersectionObserver' in window)){
   document.querySelectorAll('.reveal').forEach(el=>el.classList.add('is-visible'));
