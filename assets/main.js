@@ -111,6 +111,90 @@ document.querySelectorAll('.filter').forEach(button=>button.addEventListener('cl
   document.querySelectorAll('.price-group').forEach(group=>group.classList.toggle('is-hidden',key!=='all'&&group.dataset.group!==key));
 }));
 
+const priceTabs=[...document.querySelectorAll('[data-price-tab]')];
+const pricePanels=[...document.querySelectorAll('[data-price-panel]')];
+function activatePriceTab(tab){
+  const key=tab.dataset.priceTab;
+  priceTabs.forEach(button=>{
+    const active=button===tab;
+    button.classList.toggle('active',active);
+    button.setAttribute('aria-selected',String(active));
+    button.tabIndex=active?0:-1;
+  });
+  pricePanels.forEach(panel=>{
+    const active=panel.dataset.pricePanel===key;
+    panel.classList.toggle('active',active);
+    panel.hidden=!active;
+  });
+}
+priceTabs.forEach((tab,index)=>{
+  tab.addEventListener('click',()=>activatePriceTab(tab));
+  tab.addEventListener('keydown',event=>{
+    if(event.key!=='ArrowLeft'&&event.key!=='ArrowRight')return;
+    event.preventDefault();
+    const direction=event.key==='ArrowRight'?1:-1;
+    const next=priceTabs[(index+direction+priceTabs.length)%priceTabs.length];
+    activatePriceTab(next);
+    next.focus();
+  });
+});
+
+function setupCarousel(track){
+  const id=track.dataset.carousel;
+  const previous=document.querySelector(`[data-carousel-prev="${id}"]`);
+  const next=document.querySelector(`[data-carousel-next="${id}"]`);
+  const getStep=()=>{
+    const first=track.firstElementChild;
+    if(!first)return track.clientWidth*.8;
+    const gap=parseFloat(getComputedStyle(track).gap)||0;
+    return first.getBoundingClientRect().width+gap;
+  };
+  const updateControls=()=>{
+    const max=track.scrollWidth-track.clientWidth;
+    if(previous)previous.disabled=track.scrollLeft<=3;
+    if(next)next.disabled=track.scrollLeft>=max-3;
+  };
+  previous?.addEventListener('click',()=>track.scrollBy({left:-getStep(),behavior:prefersReducedMotion?'auto':'smooth'}));
+  next?.addEventListener('click',()=>track.scrollBy({left:getStep(),behavior:prefersReducedMotion?'auto':'smooth'}));
+  track.addEventListener('keydown',event=>{
+    if(event.key!=='ArrowLeft'&&event.key!=='ArrowRight')return;
+    event.preventDefault();
+    track.scrollBy({left:(event.key==='ArrowRight'?1:-1)*getStep(),behavior:prefersReducedMotion?'auto':'smooth'});
+  });
+  let startX=0;
+  let startScroll=0;
+  let dragging=false;
+  track.addEventListener('pointerdown',event=>{
+    if(event.pointerType==='touch')return;
+    dragging=true;
+    startX=event.clientX;
+    startScroll=track.scrollLeft;
+    track.classList.add('is-dragging');
+    track.setPointerCapture(event.pointerId);
+  });
+  track.addEventListener('pointermove',event=>{
+    if(!dragging)return;
+    track.scrollLeft=startScroll-(event.clientX-startX);
+  });
+  const stopDragging=event=>{
+    if(!dragging)return;
+    dragging=false;
+    track.classList.remove('is-dragging');
+    if(track.hasPointerCapture?.(event.pointerId))track.releasePointerCapture(event.pointerId);
+  };
+  track.addEventListener('pointerup',stopDragging);
+  track.addEventListener('pointercancel',stopDragging);
+  track.addEventListener('scroll',updateControls,{passive:true});
+  window.addEventListener('resize',updateControls,{passive:true});
+  updateControls();
+}
+document.querySelectorAll('[data-carousel]').forEach(setupCarousel);
+
+document.querySelectorAll('.faq-list details').forEach(item=>item.addEventListener('toggle',()=>{
+  if(!item.open)return;
+  document.querySelectorAll('.faq-list details[open]').forEach(other=>{if(other!==item)other.open=false;});
+}));
+
 const navLinks=[...document.querySelectorAll('.desktop-nav a,.mobile-menu a')];
 const trackedSections=[...new Set(navLinks.map(link=>document.querySelector(link.getAttribute('href'))).filter(Boolean))];
 if('IntersectionObserver' in window){
@@ -125,6 +209,10 @@ if('IntersectionObserver' in window){
   },{rootMargin:'-20% 0px -65% 0px',threshold:[0,.2,.5]});
   trackedSections.forEach(section=>navObserver.observe(section));
 }
+
+document.querySelectorAll('.visit-plan-grid,.price-groups,.honor-highlights').forEach(group=>{
+  [...group.children].forEach((item,index)=>item.style.setProperty('--reveal-delay',`${Math.min(index,3)*90}ms`));
+});
 
 if(prefersReducedMotion||!('IntersectionObserver' in window)){
   document.querySelectorAll('.reveal').forEach(el=>el.classList.add('is-visible'));
