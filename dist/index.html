@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- V2.4 mobile visual refresh -->
+<!-- V2.5 Apple-inspired mobile hierarchy refresh -->
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
@@ -25,6 +25,7 @@
       <a class="brand" href="#top" aria-label="返回首页"><span class="brand-flower" aria-hidden="true">✤</span><span><strong>绿万家花妈妈</strong><small>生态游乐农场</small></span></a>
       <nav class="desktop-nav" aria-label="主导航"><a href="#explore">自然体验</a><a href="#admission">游园指南</a><a href="#dining">农家美食</a><a href="#prices">项目价格</a><a href="#story">认识农场</a></nav>
       <button class="nav-book js-copy-wechat" type="button">微信预约 <span>↗</span></button>
+      <button class="mobile-book js-copy-wechat" type="button" aria-label="复制微信号预约">预约</button>
       <button class="menu-toggle" type="button" id="menuToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="打开导航"><span></span><span></span><span></span></button>
     </div>
     <nav id="mobileMenu" class="mobile-menu" aria-label="移动导航" hidden><a href="#explore">自然体验</a><a href="#admission">游园指南</a><a href="#dining">农家美食</a><a href="#prices">项目价格</a><a href="#story">认识农场</a><a href="#contact">预约到访</a></nav>
@@ -35,8 +36,8 @@
       <div class="hero-shade"></div>
       <div class="hero-content reveal">
         <p class="eyebrow light">ZHENGZHOU · XINGYANG · IN NATURE</p>
-        <p class="hero-place">绿万家花妈妈生态游乐农场</p>
-        <h1 id="heroTitle">一个可以<br /><span>吃花 · 喝花 · 玩花</span><br />的地方</h1>
+        <h1 id="heroTitle"><span class="hero-brand-main">绿万家花妈妈</span><span class="hero-brand-sub">生态游乐农场</span></h1>
+        <p class="hero-slogan">一个可以吃花、喝花、<br />玩花的地方。</p>
         <p class="hero-golden">把日子过进花里，把快乐还给自然。</p>
         <p class="hero-tags"><span>赏花</span><span>萌宠</span><span>研学</span><span>手作</span><span>游玩</span><span>农家美食</span><span>团建</span></p>
         <div class="hero-actions"><a class="hero-primary" href="#explore"><span>看看今天怎么玩</span><i>↓</i></a><button class="hero-secondary js-copy-wechat" type="button" aria-label="复制微信并预约"><span>微信预约</span><i>↗</i></button></div>
@@ -104,8 +105,6 @@
   </main>
 
   <footer><div class="footer-brand"><span class="brand-flower">✤</span><p><b>绿万家花妈妈生态游乐农场</b><br />一个可以吃花、喝花、玩花的地方。</p></div><p>© 2026 绿万家花妈妈生态游乐农场<br />菜品图片为场景示意，实际出品以现场为准</p></footer>
-  <nav class="mobile-dock" aria-label="快捷联系"><a href="tel:13014583578" aria-label="拨打电话"><i>⌕</i><span>电话</span></a><button type="button" class="dock-main js-copy-wechat"><i>✤</i><span>微信预约</span></button><a href="https://uri.amap.com/search?keyword=%E9%83%91%E5%B7%9E%E7%BB%BF%E4%B8%87%E5%AE%B6%E8%8A%B1%E5%A6%88%E5%A6%88%E7%A7%91%E6%99%AE%E5%9F%BA%E5%9C%B0&city=%E9%83%91%E5%B7%9E&view=map&callnative=1&src=lvwanjiafarm" target="_blank" rel="noopener noreferrer" aria-label="打开导航"><i>↗</i><span>导航</span></a></nav>
-
   <div class="wechat-overlay" id="wechatOverlay" hidden><div class="wechat-panel" role="dialog" aria-modal="true" aria-labelledby="wechatTitle"><button class="close-overlay" type="button" id="closeOverlay" aria-label="关闭">×</button><div class="modal-flower" aria-hidden="true">✤</div><p class="modal-kicker">WECHAT RESERVATION</p><h2 id="wechatTitle">微信已准备好</h2><p id="copyMessage">微信号复制后，打开微信添加朋友即可。</p><button class="wechat-id" id="wechatId" type="button">cjm13014583578</button><div class="wechat-modal-actions"><button class="copy-again" type="button" id="copyAgain"><span>复制微信号</span><i>⧉</i></button><button class="dismiss-overlay" type="button" id="dismissOverlay">知道了</button></div><p class="wechat-tip">打开微信 → 添加朋友 → 粘贴微信号搜索</p></div></div>
   <div class="toast" id="toast" role="status" aria-live="polite" hidden><b>✓</b><span>微信号已复制</span></div>
   <script src="assets/main.js" defer></script>
