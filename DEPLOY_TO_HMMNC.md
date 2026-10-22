@@ -1,4 +1,4 @@
-# V2.4 部署说明：GitHub / 帽子云
+# V2.5 部署说明：GitHub / 帽子云
 
 > 当前帽子云应用 `hmmncfarm` 已上线，临时域名为 `https://hmmncfarm-3vhg2mi.maozi.io/`。尚未绑定自有域名。
 
